@@ -15,9 +15,9 @@ oracledb.version = "8.3.0"
 sys.modules["cx_Oracle"] = oracledb
 
 # Database connection settings
-username = username
-password = password
-dsn = dsn
+username = 'username'
+password = 'password'
+dsn = 'dsn'
 
 # Create database connection
 conection_string = f'oracle+cx_oracle://{username}:{password}@{dsn}'
