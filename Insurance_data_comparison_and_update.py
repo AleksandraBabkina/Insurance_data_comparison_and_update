@@ -15,9 +15,9 @@ oracledb.version = "8.3.0"
 sys.modules["cx_Oracle"] = oracledb
 
 # Database connection settings
-username = 'KOSTYASHOV'
-password = 'KOSTYASHOV'
-dsn = 'DWHPROD'
+username = username
+password = password
+dsn = dsn
 
 # Create database connection
 conection_string = f'oracle+cx_oracle://{username}:{password}@{dsn}'
@@ -60,15 +60,18 @@ while True:
 folder1 = folders[index1]
 folder2 = folders[index2]
 
+file23 = None
+file24 = None
+
 for folder in [folder1, folder2]:
     for root, dirs, files in os.walk(folder):
         for file in files:
             if "contracts" in file.lower():
                 file_path = os.path.join(root, file)
                 if folder == folder1:
-                    file23 = f'r"{file_path}"'
+                    file23 = file_path
                 else:
-                    file24 = f'r"{file_path}"'
+                    file24 = file_path
                 break
 
 print(f"File in folder {folder1}: {file23}")
@@ -84,7 +87,7 @@ class PyObject(ctypes.Structure):
 gc.disable()  # disabling cyclic GC
 
 print("1/19: Let's start reading the first file. 15 minutes")
-with pd.read_csv(r"SK_contracts_0109.csv", 
+with pd.read_csv(file23, 
                  chunksize=10000, on_bad_lines='skip', encoding_errors='ignore', sep=';', encoding='cp1251', quoting=3, low_memory=False
                 ) as reader:
     chunks = []
@@ -100,7 +103,7 @@ del chunk
 del reader
 
 print("3/19: Let's start reading the second file. 15 minutes")
-with pd.read_csv(r"SK_contracts_0109.csv", 
+with pd.read_csv(file24, 
                  chunksize=10000, on_bad_lines='skip', encoding_errors='ignore', sep=';', encoding='cp1251', quoting=3, low_memory=False
                 ) as reader:
     chunks = []
